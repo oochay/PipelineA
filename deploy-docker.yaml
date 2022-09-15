@@ -1,0 +1,21 @@
+---
+- hosts: dev
+  become: true
+  tasks:
+    - name: install pip3
+      apt: 
+         name: python3-pip 
+         state: present 
+    
+    - name: Install docker-py python module
+      ansible.builtin.pip:
+        name: docker
+        state: present
+    
+    - name: Start the container
+      docker_container:
+        name: app_maven_001
+        image: oochay/app_maven_001
+        state: started
+        published_ports: 
+          - 0.0.0.0:8080:8080
